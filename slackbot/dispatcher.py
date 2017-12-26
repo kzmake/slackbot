@@ -225,7 +225,7 @@ class Message(object):
             self.send_webapi(text, attachments=attachments, as_user=as_user)
 
     @unicode_compact
-    def send_webapi(self, text, attachments=None, as_user=True, thread_ts=None):
+    def send_webapi(self, text, attachments=None, as_user=True, thread_ts=None, link_names=1):
         """
             Send a reply using Web API
 
@@ -237,7 +237,8 @@ class Message(object):
             text,
             attachments=attachments,
             as_user=as_user,
-            thread_ts=thread_ts)
+            thread_ts=thread_ts,
+            link_names=link_names)
 
     @unicode_compact
     def reply(self, text, in_thread=False):
@@ -254,14 +255,17 @@ class Message(object):
             self.send(text)
 
     @unicode_compact
-    def send(self, text, thread_ts=None):
+    def send(self, text, thread_ts=None, link_names=1):
         """
             Send a reply using RTM API
 
             (This function doesn't supports formatted message
             when using a bot integration)
         """
-        self._client.rtm_send_message(self._body['channel'], text, thread_ts=thread_ts)
+        if link_names == 1:
+            self.send_webapi(text, thread_ts=thread_ts, link_names=link_names)
+        else:
+            self._client.rtm_send_message(self._body['channel'], text, thread_ts=thread_ts)
 
     def react(self, emojiname):
         """
