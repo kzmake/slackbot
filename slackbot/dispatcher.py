@@ -87,7 +87,7 @@ class MessageDispatcher(object):
             else:
                 return
 
-        if username == botname or username == u'slackbot':
+        if username == botname: # or username == u'slackbot':
             return
 
         msg_respond_to = self.filter_text(msg)
