@@ -93,8 +93,10 @@ class MessageDispatcher(object):
         msg_respond_to = self.filter_text(msg)
         if msg_respond_to:
             self._pool.add_task(('respond_to', msg_respond_to))
-        else:
-            self._pool.add_task(('listen_to', msg))
+        #else:
+        #    self._pool.add_task(('listen_to', msg))
+        # listen_to は respond_toだろうが反応するように変更
+        self._pool.add_task(('listen_to', msg))
 
     def _get_bot_id(self):
         return self._client.login_data['self']['id']
