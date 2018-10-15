@@ -234,7 +234,7 @@ class Message(object):
             (This function supports formatted message
             when using a bot integration)
         """
-        self._client.send_message(
+        return self._client.send_message(
             self._body['channel'],
             text,
             attachments=attachments,
@@ -251,10 +251,10 @@ class Message(object):
             when using a bot integration)
         """
         if in_thread:
-            self.send(text, thread_ts=self.thread_ts)
+            return self.send(text, thread_ts=self.thread_ts)
         else:
             text = self.gen_reply(text)
-            self.send(text)
+            return self.send(text)
 
     @unicode_compact
     def send(self, text, thread_ts=None, link_names=1):
@@ -265,7 +265,7 @@ class Message(object):
             when using a bot integration)
         """
         if link_names == 1:
-            self.send_webapi(text, thread_ts=thread_ts, link_names=link_names)
+            return self.send_webapi(text, thread_ts=thread_ts, link_names=link_names)
         else:
             self._client.rtm_send_message(self._body['channel'], text, thread_ts=thread_ts)
 
